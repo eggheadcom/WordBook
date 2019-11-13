@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ShowActivity">
+
+    <TextView
+        android:id="@+id/tv1_regist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:layout_gravity="center_horizontal"
+        android:textSize="24sp"
+        android:text="@string/tv_title_show"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        >
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_all_show"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="5dp"
+            style="@style/my_button_1"
+            android:text="@string/btn_all_show"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_user_show"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="5dp"
+            style="@style/my_button_1"
+            android:text="@string/btn_user_show"
+            />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btn_back_show"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="5dp"
+            style="@style/my_button_1"
+            android:text="@string/btn_back"
+            />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_list_show"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            />
+
+
+    </ScrollView>
+
+
+
+
+
+</LinearLayout>

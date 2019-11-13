@@ -1,0 +1,111 @@
+<resources>
+
+    <string name="app_name">Word Book</string>
+
+    <!-- タイトル  -->
+    <string name="tv_title_main">*** 単語帳 ***</string>
+    <string name="tv_title_test">*** 出題 ***</string>
+    <string name="tv_title_regist">*** 新規登録 ***</string>
+    <string name="tv_title_search">*** 検索・削除 ***</string>
+    <string name="tv_title_show">*** 一覧表示 ***</string>
+    <string name="tv_title_info">*** Infomation ***</string>
+    <string name="tv_title_ques">*** 問題 ***</string>
+
+
+    <!-- 共有 -->
+    <string name="tv_user_name">UserName</string>
+    <string name="btn_back">戻る</string>
+
+    <!-- メイン -->
+    <string name="btn1_main">出題</string>
+    <string name="btn2_main">新規登録</string>
+    <string name="btn3_main">検索・削除</string>
+    <string name="btn4_main">一覧表示</string>
+    <string name="btn5_main">INFO</string>
+
+    <!-- 出題トップ -->
+    <string name="btn_start_test">開始</string>
+    <string name="btn_reset_test">リセット</string>
+    <string name="tv_question_ques">問題：</string>
+    <string name="tv_ans_ques">答え：</string>
+    <string name="btn_check_ques">答える</string>
+    <string name="btn_next_ques">次へ</string>
+    <string name="btn_quit_ques">出題を終了</string>
+
+    <!-- 出題 -->
+    <string name="tv_lang_test">言語タイプ</string>
+    <string name="rg_jpn_test">日本語から</string>
+    <string name="rg_eng_test">英語から</string>
+    <string name="tv_count_test">問題数</string>
+    <string name="rg_cnt1_test">全問出題</string>
+    <string name="rg_cnt2_test">問題数指定</string>
+    <string name="hint_cnt_test">問題数を入力</string>
+    <string name="tv_cate_test">カテゴリ</string>
+    <string name="tv_rate1_test">正答率</string>
+    <string name="tv_rate2_test">％以下の問題を出題</string>
+    <string name="hint_rate_test">数字を入力</string>
+    <string name="tv_previous_test">前回間違い</string>
+    <string name="check_previous_test">有効にする</string>
+    <string name="tv_days_test">登録日</string>
+    <string name="tv_days2_test">日以内に登録</string>
+    <string name="hint_days_test">数字を入力</string>
+
+
+    <!-- 登録 -->
+    <string name="tv_edit_jpn">■ 日本語：</string>
+    <string name="tv_edit_eng">■ 英語：</string>
+    <string name="btn_add_regist">登録</string>
+    <string name="btn_reset_regist">リセット</string>
+    <string name="hint_jpn_regist">Input japanese word</string>
+    <string name="hint_eng_regist">Input english word</string>
+
+
+    <!-- 検索 -->
+    <string name="tv_search">検索</string>
+    <string name="tv_key_search">キーワード検索</string>
+    <string name="tv_cate_search">カテゴリ検索</string>
+    <string name="hint_key_search">Input keyword</string>
+
+
+    <!-- 一覧 -->
+    <string name="btn_all_show">全て表示</string>
+    <string name="btn_user_show">自分の</string>
+
+    <!-- INFO -->
+    <string name="tv_msg_info">---</string>
+    <string name="tv_delete_search">削除したい項目をタップしてください</string>
+    <string name="check_category_search">有効にする</string>
+    <string name="btn_add_search">検索</string>
+    <string name="btn_delete_search">全削除</string>
+    <string name="tv_ques_count_test">20問中 5問目</string>
+    <string name="hint_name_login">Input User Name</string>
+    <string name="hint_pass_login">Input User Password</string>
+    <string name="title_new_login">**ユーザーログイン**</string>
+    <string name="btn_new_user_login">新規登録</string>
+    <string name="btn_login_login">ログイン</string>
+    <string name="hint_pass2_login">Input User Password Again</string>
+    <string name="btn_again_login">OK</string>
+    <string name="btn_cancel_login">キャンセル</string>
+    <string name="btn_card_test">カード</string>
+    <string name="btn6_main">ログアウト</string>
+    <string name="btn_card">カード</string>
+    <string name="tv_title_card">*** 暗記カード ***</string>
+    <string name="btn7_main">暗記カード</string>
+    <string name="btn8_main">Boot</string>
+    <string name="tv_title_cardsetting">暗記カード</string>
+    <string name="tv_count_cardset">表示数</string>
+    <string name="rg_cnt1_cardset">全問表示</string>
+    <string name="rg_cnt2_cardset">表示数指定</string>
+    <string name="hint_cnt_cardset">表示数を入力</string>
+    <string name="tv_rate2_cardset">%以下の単語を表示</string>
+
+
+    <!-- 未整理 -->
+
+    <!--    <string-array name="sample_spinner">-->
+    <!--        <item>"AAA"</item>-->
+    <!--        <item>"BBB"</item>-->
+    <!--        <item>"ACC"</item>-->
+    <!--    </string-array>-->
+
+</resources>

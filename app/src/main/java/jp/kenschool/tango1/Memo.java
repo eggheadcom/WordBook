@@ -8,6 +8,7 @@ public class Memo {
 
     ◆AndroidManifest.sml : 定義ファイル
              <activity> </activity> に各アクティビティ名を追加
+             android:name=".BootStrapApplication"  レイアウト用
 
     ◆build.gradle(app) ： gradleビルドに関する依存関係など
        dependenciesに以下を追加
@@ -36,6 +37,8 @@ public class Memo {
         Check : 入力チェックを行うクラス。
         Word  : 単語型(単体)のデータを保持する独自クラス。これをリストにして単語セットを扱う。
         UserData : ログイン中のユーザーデータを保持。staticでアクセス。
+
+        BootStrapApplication : レイアウト用。このクラスをManifestに登録してあり、アイコン等を利用。
         todo     : 自分用メモ。
 
     ◆レイアウトファイル

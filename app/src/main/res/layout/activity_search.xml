@@ -92,7 +92,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="5dp"
             style="@style/my_button_1"
-            android:text="@string/btn_add_search"
+            app:bootstrapText="@string/btn_add_search"
             />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
@@ -100,7 +100,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="5dp"
             style="@style/my_button_1"
-            android:text="@string/btn_reset_regist"
+            app:bootstrapText="@string/btn_reset_regist"
             />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
@@ -108,7 +108,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="5dp"
             style="@style/my_button_1"
-            android:text="@string/btn_back"
+            app:bootstrapText="@string/btn_back"
             />
 
     </LinearLayout>

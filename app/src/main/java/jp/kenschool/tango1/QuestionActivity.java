@@ -7,8 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
 import com.beardedhen.androidbootstrap.BootstrapButton;
+import com.beardedhen.androidbootstrap.BootstrapProgressBar;
+import com.beardedhen.androidbootstrap.BootstrapProgressBarGroup;
 
 import static jp.kenschool.tango1.MyOpenHelper.*;
 
@@ -21,13 +22,12 @@ public class QuestionActivity extends AppCompatActivity {
     TextView edAnswer = null;
     TextView tvDebug = null;
     BootstrapButton btnCheck = null;
-    //BootstrapButton btnNext = null;
     BootstrapButton btnQuit = null;
+    BootstrapProgressBar bar = null;
+    BootstrapProgressBarGroup barGroup = null;
 
     int btnMode = 0;
-
     ManageDB mdb = null;
-
     ArrayList<Word> data = null;//単語リスト
     Word word = null;           //１単語
     int type = 0;               //言語タイプ
@@ -50,9 +50,9 @@ public class QuestionActivity extends AppCompatActivity {
         edAnswer = findViewById(R.id.ed_ans_ques);
         tvDebug = findViewById(R.id.tv_debug_ques);
         btnCheck = findViewById(R.id.btn_check_next_ques);
-        //btnNext = findViewById(R.id.btn_next_ques);
         btnQuit = findViewById(R.id.btn_quit_ques);
-
+        bar = findViewById(R.id.prgress_ques);
+        barGroup = findViewById(R.id.prgress_grp_ques);
 
         //全画面からデータセットと言語タイプを受け取る
         Intent intent = getIntent();
@@ -72,6 +72,7 @@ public class QuestionActivity extends AppCompatActivity {
 
         //問題数を代入
         allCount = data.size();
+        barGroup.setMaxProgress(allCount);
 
         //現在の問題のWordデータを取得
         word = data.get(now-1);
@@ -131,8 +132,6 @@ public class QuestionActivity extends AppCompatActivity {
                     //ボタンの状態変更
                     btnCheck.setText("次へ");
                     btnMode = 1;
-//                btnCheck.setEnabled(false);
-//                btnNext.setEnabled(true);
 
                 }
                 else if(btnMode == 1){
@@ -148,23 +147,21 @@ public class QuestionActivity extends AppCompatActivity {
                         word = data.get(now-1);
                         //問題を表示
                         tvQuestion.setText(word.getLang(type));
+
                         //問題カウント表示
                         String str = allCount + "問中 "+ now +"問目";
+                        bar.setProgress(now);
                         tvCount.setText(str);
 
                         //ボタンの状態変更
                         btnCheck.setText("答える");
                         btnMode = 0;
-//                        btnCheck.setEnabled(true);
-//                        btnNext.setEnabled(false);
 
                     }else{
                         //終了処理
                         finishTest();
                     }
-
                 }
-
             }
         });
 
@@ -173,9 +170,7 @@ public class QuestionActivity extends AppCompatActivity {
         btnQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 finishTest();
-
             }
         });
 

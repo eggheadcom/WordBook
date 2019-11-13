@@ -14,7 +14,7 @@
 
     <!-- 共有 -->
     <string name="tv_user_name">UserName</string>
-    <string name="btn_back">戻る</string>
+    <string name="btn_back">戻る {fa_reply}</string>
 
     <!-- メイン -->
     <string name="btn1_main">出題</string>
@@ -24,8 +24,8 @@
     <string name="btn5_main">INFO</string>
 
     <!-- 出題トップ -->
-    <string name="btn_start_test">開始</string>
-    <string name="btn_reset_test">リセット</string>
+    <string name="btn_start_test">開始 {fa_play_circle}</string>
+    <string name="btn_reset_test">クリア {fa_eraser}</string>
     <string name="tv_question_ques">問題：</string>
     <string name="tv_ans_ques">答え：</string>
     <string name="btn_check_ques">答える</string>
@@ -54,8 +54,8 @@
     <!-- 登録 -->
     <string name="tv_edit_jpn">■ 日本語：</string>
     <string name="tv_edit_eng">■ 英語：</string>
-    <string name="btn_add_regist">登録</string>
-    <string name="btn_reset_regist">リセット</string>
+    <string name="btn_add_regist">登録 {fa_pencil}</string>
+    <string name="btn_reset_regist">クリア {fa_eraser}</string>
     <string name="hint_jpn_regist">Input japanese word</string>
     <string name="hint_eng_regist">Input english word</string>
 
@@ -68,21 +68,21 @@
 
 
     <!-- 一覧 -->
-    <string name="btn_all_show">全て表示</string>
-    <string name="btn_user_show">自分の</string>
+    <string name="btn_all_show">全て {fa_users}</string>
+    <string name="btn_user_show">自分の {fa_user}</string>
 
     <!-- INFO -->
     <string name="tv_msg_info">---</string>
     <string name="tv_delete_search">削除したい項目をタップしてください</string>
     <string name="check_category_search">有効にする</string>
-    <string name="btn_add_search">検索</string>
+    <string name="btn_add_search">検索 {fa_search}</string>
     <string name="btn_delete_search">全削除</string>
     <string name="tv_ques_count_test">20問中 5問目</string>
     <string name="hint_name_login">Input User Name</string>
     <string name="hint_pass_login">Input User Password</string>
     <string name="title_new_login">**ユーザーログイン**</string>
-    <string name="btn_new_user_login">新規登録</string>
-    <string name="btn_login_login">ログイン</string>
+    <string name="btn_new_user_login">新規登録 {fa_pencil}</string>
+    <string name="btn_login_login">ログイン {fa_sign_in}</string>
     <string name="hint_pass2_login">Input User Password Again</string>
     <string name="btn_again_login">OK</string>
     <string name="btn_cancel_login">キャンセル</string>
@@ -98,6 +98,7 @@
     <string name="rg_cnt2_cardset">表示数指定</string>
     <string name="hint_cnt_cardset">表示数を入力</string>
     <string name="tv_rate2_cardset">%以下の単語を表示</string>
+    <string name="btn_reset_card">リセット {fa_ eraser}</string>
 
 
     <!-- 未整理 -->

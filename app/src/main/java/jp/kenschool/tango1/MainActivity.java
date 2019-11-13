@@ -3,8 +3,12 @@ package jp.kenschool.tango1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.ToolbarWidgetWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -18,6 +22,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //ToolBar
+        ViewGroup root = (ViewGroup) findViewById(R.id.lineralayout_root).getParent();
+        // false=rootをmy_toolbarのルートにしない.
+        android.support.v7.widget.Toolbar toolbar
+                = (android.support.v7.widget.Toolbar)LayoutInflater.from(this).inflate(R.layout.my_toolbar, root, false);
+        root.addView(toolbar, 0);
+        setSupportActionBar(toolbar);
 
         // 起動後の初回はログイン画面に飛ぶ――――――――――――――――――――――――
         if(!UserData.init){

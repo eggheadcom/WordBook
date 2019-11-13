@@ -239,7 +239,7 @@ tools:context=".TestActivity">
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginLeft="5dp"
     android:orientation="horizontal"
     >
 
@@ -248,15 +248,14 @@ tools:context=".TestActivity">
         android:layout_marginTop="30dp"
         android:layout_marginRight="5dp"
         style="@style/my_button_1"
-        android:text="@string/btn_start_test"
+        app:bootstrapText="@string/btn_start_test"
         />
 
     <com.beardedhen.androidbootstrap.BootstrapButton
         android:id="@+id/btn_reset_test"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="5dp"
         style="@style/my_button_1"
-        android:text="@string/btn_reset_test"
+        app:bootstrapText="@string/btn_reset_test"
         />
 
     <com.beardedhen.androidbootstrap.BootstrapButton
@@ -264,7 +263,7 @@ tools:context=".TestActivity">
         android:layout_marginTop="30dp"
         android:layout_marginRight="5dp"
         style="@style/my_button_1"
-        android:text="@string/btn_back"
+        app:bootstrapText="@string/btn_back"
         />
 
 </LinearLayout>

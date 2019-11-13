@@ -3,8 +3,6 @@ package jp.kenschool.tango1;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,8 +10,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // フィールド――――――――――――――――
-    public static final double VERSION = 2.4;
-
+    public static final double VERSION = 2.5;
     TextView tvLogin = null;
     ManageDB mdb = null;
 
@@ -22,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //起動後の初回はログイン画面に飛ぶ
+        // 起動後の初回はログイン画面に飛ぶ――――――――――――――――――――――――
         if(!UserData.init){
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -38,26 +35,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn6_main).setOnClickListener(this);
         findViewById(R.id.btn7_main).setOnClickListener(this);
 
-        //データベースマネージャーオブジェクトを生成
+        // データベースマネージャーオブジェクトを生成
         mdb = new ManageDB(this);
-
     }
 
     /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-     ログイン画面から戻った際の処理
+        ログイン画面から戻った際の処理
     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
     @Override
     protected void onResume() {
         super.onResume();
-
         String msg = "Wellcome " + UserData.name + "!!";
         tvLogin.setText(msg);
     }
 
-
-
     /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-      各アクティビティへ遷移
+        各アクティビティへ遷移
     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
     @Override
     public void onClick(View v){
@@ -98,30 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
         }
-        startActivity(intent);
-
+        startActivity(intent); //上で設定したActivityへ遷移
     }
-
-//
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.menu1) {
-//            Intent intent = new Intent(MainActivity.this, CardsActivity.class);
-//            startActivity(intent);
-//        }
-//        if (id == R.id.menu2) {
-//            Intent intent = new Intent(MainActivity.this, InfoActivity.class);
-//            startActivity(intent);
-//        }
-//        return true;
-//    }
-
-
 }

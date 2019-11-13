@@ -46,7 +46,6 @@
                 android:hint="@string/hint_key_search"
                 />
 
-
         </TableRow>
 
         <TableRow
@@ -75,12 +74,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40dp"
             >
-
         </RadioGroup>
 
     </TableLayout>
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -115,8 +111,6 @@
             android:text="@string/btn_back"
             />
 
-
-
     </LinearLayout>
 
     <LinearLayout
@@ -138,7 +132,6 @@
             android:visibility="invisible"
             android:text="@string/btn_delete_search"
             />
-
     </LinearLayout>
 
     <LinearLayout
@@ -147,7 +140,6 @@
         android:orientation="vertical"
         >
 
-        <!--テスト用　残すならString-->
         <TextView
             android:id="@+id/tv_debug_search"
             android:layout_width="wrap_content"

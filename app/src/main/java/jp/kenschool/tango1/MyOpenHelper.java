@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-
 //*** データベースヘルパークラス ***
 public class MyOpenHelper extends SQLiteOpenHelper {
 
@@ -31,7 +30,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                     + "user_name TEXT NOT NULL,"
                     + "password TEXT NOT NULL"
                     //+ ",created_by TIMESTAMP DEFAULT CURRENT_DATE"
-                    // + "created_by TIMESTAMP DEFAULT (DATETIME('now','localtime')),"
                     + ")";
 
     private static final String SQL_CREATE_WORDS =
@@ -45,7 +43,6 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                     + "previous INTEGER DEFAULT 0,"
                     + "rate INTEGER DEFAULT 0,"
                     + "created_by DATE DEFAULT CURRENT_DATE,"
-                 // + "created_by TIMESTAMP DEFAULT (DATETIME('now','localtime')),"
                     + "cate_id INTEGER DEFAULT 1,"
                     + "user_id INTEGER NOT NULL,"
                     + "FOREIGN KEY(cate_id) REFERENCES categories(cate_id),"
@@ -64,33 +61,36 @@ public class MyOpenHelper extends SQLiteOpenHelper {
             "DROP TABLE IF EXISTS " + TABLE_WORDS;
 
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
         コンストラクタ
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+     ――――――――――――――――――――――――――――――――――――――――――――――――*/
     // 呼び出し元のアクティビティを引数で受け、親のコンストラクタを呼び出す
     // 渡す引数２はDB名、引数３は基本的にはnullでOK、引数４はバージョン
     MyOpenHelper(Context context){
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
         生成
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+     ――――――――――――――――――――――――――――――――――――――――――――――――*/
     // 指定されたデータベースが存在しない時にだけ呼ばれる（存在してると実行されない）
     // Create文やデフォルトで挿入しておきたい初期レコードなど記述
     @Override
     public void onCreate(SQLiteDatabase db){
 
-        Log.e("egg", "onCreate: start地点");
-
+        Log.e("myLog", "onCreate: start地点");
         //テーブル作成
         db.execSQL(SQL_CREATE_CATEGORIES);
         db.execSQL(SQL_CREATE_USERS);
         db.execSQL(SQL_CREATE_WORDS);
 
-        Log.i("egg", "onCreate: テーブル作成と初期レコードの間");
+        Log.i("myLog", "onCreate: テーブル作成と初期レコードの間");
 
-        //初期レコード
+        /*――――――――――――――――――――――――――――――――――――――――――――
+            初期レコード
+        ――――――――――――――――――――――――――――――――――――――――――――――*/
+        //カテゴリーテーブル
+        Log.i("myLog", "onCreate: insert categories の前");
         String insertSql =
                 "INSERT INTO " + TABLE_CATEGORIES + " VALUES " +
                         " (null, '未分類')," +
@@ -100,16 +100,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                         " (null, '副詞');";
         db.execSQL(insertSql);
 
-//        String insertSql =
-//                "INSERT INTO " + TABLE_CATEGORIES + " VALUES " +
-//                " (null, 'カテゴリ未設定')," +
-//                " (null, '生き物')," +
-//                " (null, '食べ物')," +
-//                " (null, '乗り物')," +
-//                " (null, '感情');";
-//        db.execSQL(insertSql);
-
-        Log.i("egg", "onCreate: insert users の前");
+        //ユーザーテーブル
+        Log.i("myLog", "onCreate: insert users の前");
         insertSql =
                 "INSERT INTO " + TABLE_USERS +
                         " (user_name, password)" + " VALUES " +
@@ -120,7 +112,8 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                         " ('user5','aaa')";
         db.execSQL(insertSql);
 
-        Log.i("egg", "onCreate: insert wordsの前");
+        //単語テーブル
+        Log.i("myLog", "onCreate: insert wordsの前");
         insertSql =
                 "INSERT INTO " + TABLE_WORDS +
                         " (jpn, eng, cate_id, user_id)" + " VALUES" +
@@ -147,12 +140,12 @@ public class MyOpenHelper extends SQLiteOpenHelper {
                         " ('個々の', 'individual', 5, 3)";
         db.execSQL(insertSql);
 
-        Log.i("egg", "onCreate: end");
+        Log.i("myLog", "onCreate: end");
     }
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*――――――――――――――――――――――――――――――――――――――――――――――
        バージョン更新メソッド
-    ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+    ――――――――――――――――――――――――――――――――――――――――――――――――*/
     // このオブジェクトを使ってDBをオープンすると、コンストラクタで渡した引数４のバージョンと
     // 実際のデータベースのバージョンが違う時に呼び出され、更新される。
     @Override

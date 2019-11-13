@@ -59,12 +59,9 @@ public class TestActivity extends AppCompatActivity {
         rgpCate = findViewById(R.id.rbgroup_search);
         rgpLang = findViewById(R.id.rbgroup_lang_test);
         rgpCtn = findViewById(R.id.rbgroup_cnt_test);
-
         btnStart = findViewById(R.id.btn_start_test);
         btnReset = findViewById(R.id.btn_reset_test);
         btnBack = findViewById(R.id.btn_back_test);
-
-        tvError.setTextColor(Color.parseColor("#D81B60"));
 
         mdb = new ManageDB(this);
 
@@ -72,33 +69,20 @@ public class TestActivity extends AppCompatActivity {
         ArrayList<String> categories = mdb.getCateList();
         for(int i = 0; i < categories.size(); i++){
             RadioButton rb = new RadioButton(this);
-            //rb.setId(i);
             rb.setText(categories.get(i));
             rb.setTag(i+1);
             rgpCate.addView(rb);
         }
 
-        //問題数EditViewにフォーカスされたらラジオボタンを変更
-        edCnt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-                if(hasFocus) rbCnt.setChecked(true);
-
-            }
-        });
-
-        // 開始ボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            開始ボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                //入力チェックboole
-                boolean inputCheck = true;
-
-                //エラー用msg
-                StringBuilder errorMsg = new StringBuilder();
+                boolean inputCheck = true;   //入力チェックboole
+                StringBuilder errorMsg = new StringBuilder(); //エラー用msg
                 tvError.setText("");
 
                 //言語タイプ設定
@@ -110,7 +94,6 @@ public class TestActivity extends AppCompatActivity {
                     lang = ENG;
                 }
 
-
                 //SQL文生成のための各条件用のString―――――――――――――――
                 String sql = "";
                 String limit = "";
@@ -119,20 +102,19 @@ public class TestActivity extends AppCompatActivity {
                 String prev = "";
                 String day = "";
 
-
-                //問題数の設定（初期値を全問につける TODO）
+                //問題数の設定
                 int checkedCntId = rgpCtn.getCheckedRadioButtonId();
                 if(checkedCntId == R.id.rg_cnt_all_test){             //全問の場合
                     limit = "";
 
                 } else if(checkedCntId == R.id.rg_cnt_order_test){    //問題数指定の場合
                     String order = edCnt.getText().toString();
-                    if(order.equals("")){                          //入力がない場合
+                    if(order.equals("")){                             //入力がない場合
                         inputCheck = false;
                         errorMsg.append("問題数を入力してください\n");
-                    }else{                                          //SLQ作成
+                    }else{                                            //SLQ作成
                         if(Check.isNumber(order, 1, 100)){
-                            limit = " LIMIT " + order;  //行数指定sql
+                            limit = " LIMIT " + order;                //行数指定sql
                         }else{
                             inputCheck = false;
                             errorMsg.append("問題数は1-100の範囲で指定してください\n");
@@ -149,31 +131,26 @@ public class TestActivity extends AppCompatActivity {
                     cate = "cate_id = " + cateID;
                 }
 
-
                 //正答率の設定
                 String order = edRate.getText().toString();
                 if(!(order.equals(""))){                          //空じゃなければ
-
                     if(Check.isNumber(order, 1, 100)){
                         rate = " AND rate <= " + order;    //order以下で指定するsql
                     }else{
                         inputCheck = false;
                         errorMsg.append("正答率は1-100の範囲で指定してください\n");
                     }
-
                 }
 
 
                 //前回間違い
                 if(chPrevious.isChecked()){
                     prev = " AND (previous = 0 AND cnt > 0)"; //1回以上挑戦したもので
-                    //prev = " AND last_ans = 0";
                 }
 
                 //登録日
                 order = edDays.getText().toString();
                 if(!(order.equals(""))){                          //入力がない場合
-
                     if(Check.isNumber(order, 1, 365)){
                         day = " AND created_by > date('now', '-"+order+" days')"; //order日前より最近
                     }else{
@@ -205,28 +182,37 @@ public class TestActivity extends AppCompatActivity {
                         res += sql;
                         tvDebug.setText(res);
 
-                        //画面遷移  通常の問題
+                        // 画面遷移  通常の問題
                         Intent intent = new Intent(TestActivity.this, QuestionActivity.class);
                         intent.putExtra("data", data);
                         intent.putExtra("lang", lang);
                         startActivity(intent);
                         finish();
 
-
                     }else{
                         errorMsg.append("該当する単語がありません");
                     }
                 }
-                tvError.setText(errorMsg);
-
+                tvError.setText(errorMsg);  //エラーメッセージの表示
             }
         });
 
-        //リセットボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            問題数EditViewにフォーカスされたらラジオボタンを変更
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
+        edCnt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) rbCnt.setChecked(true);
+            }
+        });
+
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            リセットボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 rbJpn.setChecked(true);
                 rbAllCnt.setChecked(true);
                 rgpCate.clearCheck();
@@ -237,7 +223,9 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-        // 戻るボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            戻るボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -245,7 +233,5 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
 }

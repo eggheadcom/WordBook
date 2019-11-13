@@ -9,26 +9,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.beardedhen.androidbootstrap.BootstrapButton;
-
-import static jp.kenschool.tango1.MyOpenHelper.*;
-
 import java.util.ArrayList;
+import static jp.kenschool.tango1.MyOpenHelper.*;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //フィールド
-    TextView tvErr = null;
-    EditText edName = null;
-    EditText edPass = null;
-    EditText edPassAgain = null;
-    BootstrapButton btnLogin = null;
-    BootstrapButton btnNewUser = null;
-    Button btnPassAgain = null;
-    Button btnCancel = null;
+    //***フィールド***
+    TextView tvErr;
+    EditText edName;
+    EditText edPass;
+    EditText edPassAgain;
+    BootstrapButton btnLogin;
+    BootstrapButton btnNewUser;
+    Button btnPassAgain;
+    Button btnCancel;
 
     String inputName;
     String inputPass;
@@ -39,20 +35,19 @@ public class LoginActivity extends AppCompatActivity {
 
     ManageDB mdb = null;
     StringBuilder errMsg = null;
-    boolean inputCheck;
     SharedPreferences pref = null;
     SharedPreferences.Editor editor = null;
 
+    boolean inputCheck;
     final int VIEW_NOMAL = 1;
     final int VIEW_PASS_CHECK = 2;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        //findView群
+        //***findView群***
         tvErr = findViewById(R.id.tv_debug_login);
         tvErr.setTextColor(Color.RED);
         edName  = findViewById(R.id.ed_login_name);
@@ -63,12 +58,11 @@ public class LoginActivity extends AppCompatActivity {
         btnPassAgain = findViewById(R.id.btn_again_login);
         btnCancel = findViewById(R.id.btn_cancel_login);
 
-
-
         mdb = new ManageDB(this);
         errMsg = new StringBuilder();
         inputCheck = true;
 
+        //プレファレンスを確認してデータがあればユーザー名とパスに表示
         pref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
         userName = pref.getString("name","");
         userPass = pref.getString("pass","");
@@ -76,22 +70,23 @@ public class LoginActivity extends AppCompatActivity {
         edName.setText(userName);
         edPass.setText(userPass);
 
-        //ログインボタン
+
+        /*――――――――――――――――――――――――――――――――――――――――――――――
+            ログインボタン
+        ――――――――――――――――――――――――――――――――――――――――――――――――*/
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //データ読み込み
-                setInputData();
+                setInputData();   //データ読み込み
 
-                //ユーザー名とパスを使用してSQL生成
-                if(inputCheck) {
+                if(inputCheck) {  //ユーザー名とパスを使用してSQL生成
                     String sql = "SELECT user_id" +
                             " FROM " + TABLE_USERS +
                             " WHERE user_name = '" + inputName
                             +"' AND password = '" + inputPass + "'";
 
-                    ArrayList<String> result = mdb.read(sql, 1);
+                    ArrayList<String> result = mdb.read(sql, 1); //DBから結果受け取り
 
                     if(result.size() != 0) {
                         userId = result.get(0); //結果からIDをセット
@@ -99,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                         //プリファレンスに登録
                         pref = getSharedPreferences("UserData", Context.MODE_PRIVATE);
                         editor = pref.edit();
-
                         editor.putString("name", inputName);
                         editor.putString("pass", inputPass);
                         editor.putString("id", userId);
@@ -107,54 +101,52 @@ public class LoginActivity extends AppCompatActivity {
 
                         UserData.name = inputName;
                         UserData.id = userId;
-                        UserData.init = true;
+                        UserData.init = true;     //イニシャライズ済
 
                         //メインアクティビティへ遷移
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         finish();
 
-                    }else { //結果が0件
+                    }else { //結果が0件の場合
                         errMsg.append("ユーザー名かパスワードが間違っています\n");
                         edName.setText("");
                         edPass.setText("");
                     }
                 }
-
-                //エラーメッセージを表示
-                tvErr.setText(errMsg.toString());
+                tvErr.setText(errMsg.toString()); //エラーメッセージを表示
             }
         });
 
-        //新規登録ボタン
+        /*――――――――――――――――――――――――――――――――――――――――――――――
+            新規登録ボタン
+        ――――――――――――――――――――――――――――――――――――――――――――――――*/
         btnNewUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                setInputData(); //データ取得
+                setInputData();  //データ取得
 
-                if(inputCheck){
-
-                    //SQL作成
+                if(inputCheck){   //SQL作成
                     String sql = "SELECT user_name " +
                             " FROM " + TABLE_USERS +
                             " WHERE user_name = '" + inputName +"'";
 
-                    ArrayList<String> result = mdb.read(sql, 1);
+                    ArrayList<String> result = mdb.read(sql, 1); //DBから結果受け取り
 
-                    if(result.size() != 0){
+                    if(result.size() != 0){           //結果がゼロではない＝既にある場合
                         errMsg.append("既に使用されているユーザー名です\n");
 
-                    }else{
-                        //パス再入力モードに
-                        changeView(VIEW_PASS_CHECK);
+                    }else{                            //無ければ
+                        changeView(VIEW_PASS_CHECK);  //passwordの再入力モードに
                     }
                 }
                 tvErr.setText(errMsg.toString());
-
             }
         });
 
-        //パス再入力OKボタン
+        /*――――――――――――――――――――――――――――――――――――――――――――――
+            パス再入力OKボタン
+        ――――――――――――――――――――――――――――――――――――――――――――――――*/
         btnPassAgain.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -171,39 +163,39 @@ public class LoginActivity extends AppCompatActivity {
 
                 }else{
 
-                    //ここから本処理
+                    //ここから本処理　insert文
                     String sql = "INSERT INTO " +
                             TABLE_USERS +
                             "(user_name, password) " +
                             "VALUES('" + inputName + "','" + inputPass +"')";
 
                     if(mdb.write(sql)){
+                        //画面をログインモードに変更して、結果を結果を表示
                         changeView(VIEW_NOMAL);
                         errMsg.append("Name:"+inputName + " Pass:" + inputPass + "で登録完了!");
                     }
-                    //結果を表示（ログイン促す）
-
                 }
-
                 tvErr.setText(errMsg.toString());
-
             }
         });
 
 
-    //キャンセルボタン
+    /*――――――――――――――――――――――――――――――――――――――――――――――
+          キャンセルボタン
+    ――――――――――――――――――――――――――――――――――――――――――――――――*/
     btnCancel.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
-            changeView(VIEW_NOMAL);
+            changeView(VIEW_NOMAL);   //画面変更
         }
     });
 
     }
 
 
-    //EditTextの中身をチェックしてフィールドにセット
+    /*――――――――――――――――――――――――――――――――――――――――――――――
+        EditTextの中身をチェックしてフィールドにセットするメソッド
+    ――――――――――――――――――――――――――――――――――――――――――――――――*/
     private void setInputData(){
 
         errMsg.delete(0,errMsg.length());   //エラーメッセージをクリア
@@ -225,12 +217,13 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /*――――――――――――――――――――――――――――――――――――――――――――――
+      　引数で受けたモードに画面を変更するメソッド
+    ――――――――――――――――――――――――――――――――――――――――――――――――*/
     private void changeView(int mode){
 
         switch (mode){
-
-            case VIEW_NOMAL: //通常モード戻す
-
+            case VIEW_NOMAL: //通常モード
                 edPassAgain.setVisibility(View.INVISIBLE);
                 btnPassAgain.setVisibility(View.INVISIBLE);
                 btnCancel.setVisibility(View.INVISIBLE);
@@ -238,14 +231,11 @@ public class LoginActivity extends AppCompatActivity {
                 btnLogin.setVisibility(View.VISIBLE);
                 edName.setEnabled(true);
                 edPass.setEnabled(true);
-
                 errMsg.delete(0,errMsg.length());
                 tvErr.setText("");
-
                 break;
 
-            case VIEW_PASS_CHECK:   //パス再入力モードに変更
-
+            case VIEW_PASS_CHECK:   //パス再入力モード
                 errMsg.append("パスワードを再入力してください");
                 edName.setEnabled(false);
                 edPass.setEnabled(false);
@@ -255,9 +245,7 @@ public class LoginActivity extends AppCompatActivity {
                 btnPassAgain.setVisibility(View.VISIBLE);
                 btnCancel.setVisibility(View.VISIBLE);
                 tvErr.setText(errMsg.toString());
-
-            break;
-
+                break;
         }
 
     }

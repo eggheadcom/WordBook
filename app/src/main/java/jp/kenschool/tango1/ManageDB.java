@@ -5,17 +5,16 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-
 import static jp.kenschool.tango1.MyOpenHelper.TABLE_CATEGORIES;
-
 import java.util.ArrayList;
 
 public class ManageDB {
 
     // フィールド――――――――――――――――
-    private MyOpenHelper helper = null;
-    private SQLiteDatabase db = null;
+    private MyOpenHelper helper;
+    private SQLiteDatabase db;
 
+    //可読性をあげるため各項目を定数に
     private final int WORD_ID = 0;
     private final int  JPN = 1;
     private final int  ENG = 2;
@@ -27,34 +26,29 @@ public class ManageDB {
     private int CATE_ID = 8;
     private int USER_ID = 9;
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*――――――――――――――――――――――――――――――――――――――――――――――――
        コンストラクタ
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
-    //DBオブジェクトの生成 (contextを受け取りそれを元にヘルパー生成)
+     ―――――――――――――――――――――――――――――――――――――――――――――――――*/
+    //DBオブジェクトの生成 (contextを受け取りそれを元にhelper生成)
     ManageDB(Context context) {
         helper = new MyOpenHelper(context);
     }
 
-
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
-         SELECT文の結果を全て返す (MyDatasetのArrayListが返り値)
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+    /*――――――――――――――――――――――――――――――――――――――――――――――――
+         SELECT文の結果を全て返す (sqlを引数で受けMyDatasetのリストを返す)
+     ―――――――――――――――――――――――――――――――――――――――――――――――――*/
     public ArrayList<Word> read(String sql){
 
         ArrayList<Word> data = new ArrayList<>();
         Cursor c = null;
-        Log.e("egg", "read() : try 開始直前");
 
         try {
             db = helper.getReadableDatabase();
-            Log.e("egg", "read() : getReadableDatabase直後");
             c = db.rawQuery(sql, null);
 
-            Log.e("egg", "read() : rawQuery直後");
             while (c.moveToNext()) {
-
+                //Word型の各フィールドにセットしていく
                 Word record = new Word();
-
                 record.setWordID(c.getInt(WORD_ID));
                 record.setJpn(c.getString(JPN));
                 record.setEng(c.getString(ENG));
@@ -65,25 +59,21 @@ public class ManageDB {
                 record.setCreatedBy(c.getString(CREATED_BY));
                 record.setCateID(c.getInt(CATE_ID));
                 record.setUserID(c.getInt(USER_ID));
-
-                data.add(record);
+                data.add(record);   //セットし終えたらリストに追加
             }
 
         } catch (SQLException e) {
-            Log.e("egg", "SQLException : read()");
+            Log.e("myLog", "SQLException : read()");
         } finally {
             if(c != null) c.close();
             if(db != null) db.close();
         }
-
         return data;
     }
 
-     /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+     /*――――――――――――――――――――――――――――――――――――――――――――――
          SELECT文の結果をArrayList<String>で返す
-         ハッシュマップの方がいい？
-         要検討
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+     ――――――――――――――――――――――――――――――――――――――――――――――――*/
      public ArrayList<String> read(String sql, int column){
 
          ArrayList<String> data = new ArrayList<>();
@@ -100,18 +90,17 @@ public class ManageDB {
              }
 
          } catch (SQLException e) {
-             Log.e("egg", "SQLException : read(sql, column)");
+             Log.e("myLog", "SQLException : read(sql, column)");
          } finally {
              if(c != null) c.close();
              if(db != null) db.close();
          }
-
          return data;
      }
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
          INSERT, UPDATE, DELETE
-     ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+     ――――――――――――――――――――――――――――――――――――――――――――――――*/
     public boolean write(String sql){
 
         try {
@@ -120,62 +109,48 @@ public class ManageDB {
             return true;
 
         }catch (SQLException e) {
-            Log.e("egg", "SQLException : write()");
+            Log.e("myLog", "SQLException : write()");
             return false;
-
         } finally {
             if(db != null)  db.close();
         }
-
     }
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
         INSERT, UPDATE, DELETE  （bind有りversion）
-    ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+    ―――――――――――――――――――――――――――――――――――――――――――――――――*/
     public boolean write(String sql, Object[] bind){
 
-//      String insertSql = "INSERT INTO " + Word.TABLE_NAME + " (name,age) values (?,?);";
-//      Object[] bind = {strIn, intIn};
-        Log.e("egg", "write(): ");
         try {
             db = helper.getWritableDatabase();
-            db.execSQL(sql, bind); //返り値は？
+            db.execSQL(sql, bind);             //返り値は？
             return true;
 
         }catch (SQLException e) {
-            Log.e("egg", "SQLException : write()");
+            Log.e("myLog", "SQLException : write()");
             return false;
-
         } finally {
             if(db != null)  db.close();
         }
     }
 
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
         カウント
-    ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+    ―――――――――――――――――――――――――――――――――――――――――――――――――*/
     public int getCount(String table, String where) {
-        //調整
-        Log.e("egg", "getCount: start");
         String sql = "SELECT * FROM " + table + where;
         int cnt = read(sql).size();
-        Log.e("egg", "getCount: end");
         return cnt;
     }
 
 
-    /*――――――――――――――――――――――――――――――――――――――――――――――――――――――――
+    /*―――――――――――――――――――――――――――――――――――――――――――――――
         Categoryリスト
-    ――――――――――――――――――――――――――――――――――――――――――――――――――――――――*/
+    ―――――――――――――――――――――――――――――――――――――――――――――――――*/
     public ArrayList<String> getCateList() {
-        //まだ
-        Log.e("egg", "getCateList: ");
         String sql = "SELECT cate_name FROM " + TABLE_CATEGORIES;
         return read(sql,1);
     }
-
-
-
 
 }

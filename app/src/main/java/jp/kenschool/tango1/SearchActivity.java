@@ -42,6 +42,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        // *** FindView ***
         tvDebug = findViewById(R.id.tv_debug_search);
         tvDelete = findViewById(R.id.tv_delete_search);
         edKeyword = findViewById(R.id.ed_key_search);
@@ -54,7 +55,6 @@ public class SearchActivity extends AppCompatActivity {
         listView = findViewById(R.id.lv_search);
 
         mdb = new ManageDB(this);
-
 
         //カテゴリ項目のチェック判定
         check.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +70,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            検索ボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         // 検索ボタン――――――――――――――――
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +85,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        //リストビューをタップ――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            リストビュー
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -91,19 +96,18 @@ public class SearchActivity extends AppCompatActivity {
                 Word selected = data.get(position);
                 String msg = selected.getJpn() + ":"+selected.getEng()+" を削除してよろしいですか";
 
-                //削除sql
-                String[] sql  = {
+                String[] sql  = {  //削除sql
                         "DELETE FROM " + TABLE_WORDS
                                 + " WHERE word_id = " + selected.getWordID()
                 };
 
-                //アラートダイアログ
-                deleteAlert(msg, sql);
-
+                deleteAlert(msg, sql);  //削除確認用のアラートダイアログ
             }
         });
 
-        //リセットボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            リセットボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +117,9 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
-        //全削除ボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            全削除ボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,18 +127,17 @@ public class SearchActivity extends AppCompatActivity {
                 String msg = data.size() + "件のデータを削除してよろしいですか？";
                 String[] sql = new String[data.size()];
 
-                //バインドで検討
                 for (int i = 0; i<data.size(); i++) {
                     sql[i] = "DELETE FROM " + TABLE_WORDS
                             + " WHERE word_id = " + data.get(i).getWordID();
                 }
                 deleteAlert(msg, sql);
-
             }
         });
 
-
-        // 戻るボタン――――――――――――――――
+        /*―――――――――――――――――――――――――――――――――――――――――――――
+            戻るボタン
+        ―――――――――――――――――――――――――――――――――――――――――――――――*/
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,37 +147,36 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
-    //Select文の生成
+    /*―――――――――――――――――――――――――――――――――――――――――――――
+        Select文の生成
+    ―――――――――――――――――――――――――――――――――――――――――――――――*/
     private String createSelect(){
-        //SQLの作成
+
         String key = edKeyword.getText().toString();
         String category = "";
 
-        if(check.isChecked()){ //何もチェックされてない時の処理 TODO
+        if(check.isChecked()){
             int checkedID = rGroup.getCheckedRadioButtonId(); //チェックされたID取得
             int cateID = (int) findViewById(checkedID).getTag();
             category = "AND cate_id = " + cateID;
         }
-
         String where = " WHERE "
                 + "(jpn LIKE " + "'%" + key + "%'"
                 + "OR "
                 + "eng LIKE " + "'%" + key + "%')"
                 + category;
-
         String sql = "SELECT * FROM " + TABLE_WORDS + where;
-
-        //tvDebug.setText(sql); //debug用
 
         return sql;
     }
 
-    //リストデータ生成メソッド（SQLの結果をString配列にして返す）
+    /*―――――――――――――――――――――――――――――――――――――――――――――
+        リストデータ生成メソッド（SQLの結果をString配列にして返す）
+    ―――――――――――――――――――――――――――――――――――――――――――――――*/
     private String[] getListData(String sql){
 
         //sql実行して結果を配列に代入
         data = mdb.read(sql);
-
         String[] lvData = new String[data.size()];
 
         if(data.size() == 0){                           //1件もないとき
@@ -187,19 +191,20 @@ public class SearchActivity extends AppCompatActivity {
         return lvData;
     }
 
-    //リストビューにセットするメソッド
+    /*―――――――――――――――――――――――――――――――――――――――――――――
+        リストビューにセットするメソッド
+    ―――――――――――――――――――――――――――――――――――――――――――――――*/
     private void setListView(String[] lvData){
-
         // simple_list_item_1 は、 もともと用意されている定義済みのレイアウトファイルのID
         ArrayAdapter<String> arrayAdapter =
                 new ArrayAdapter<>(SearchActivity.this, android.R.layout.simple_list_item_1, lvData);
         listView.setAdapter(arrayAdapter);
-
         tvDebug.setVisibility(View.VISIBLE); //Delete上のテキストビューを表示
-
     }
 
-    //カテゴリ表示メソッド
+    /*―――――――――――――――――――――――――――――――――――――――――――――
+        カテゴリ表示メソッド
+    ―――――――――――――――――――――――――――――――――――――――――――――――*/
     private void visibleCategory(){
         //カテゴリ取得してラジオボタン生成
         ArrayList<String> categories = mdb.getCateList();
@@ -211,8 +216,10 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    //削除アラートダイアログ
-    //引数１でメッセージ、引数２で削除用のsql文配列を受ける
+    /*―――――――――――――――――――――――――――――――――――――――――――――
+         削除アラートダイアログ
+         引数１でメッセージ、引数２で削除用のsql文配列を受ける
+    ―――――――――――――――――――――――――――――――――――――――――――――――*/
     private void deleteAlert(String msg, final String[] sql){
 
         AlertDialog.Builder alBuilder = new AlertDialog.Builder(SearchActivity.this);
@@ -238,6 +245,4 @@ public class SearchActivity extends AppCompatActivity {
         AlertDialog al = alBuilder.create();
         al.show();
     }
-
-
 }

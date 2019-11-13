@@ -7,24 +7,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
-import android.widget.Button;
-
-import com.beardedhen.androidbootstrap.BootstrapButton;
-
 import java.util.ArrayList;
-
-import static jp.kenschool.tango1.MyOpenHelper.TABLE_WORDS;
+import com.beardedhen.androidbootstrap.BootstrapButton;
 
 public class CardsActivity extends AppCompatActivity {
 
+    //フィールド―――――――――――――――――――――――――――――
     RecyclerView recyclerView = null;
     RecyclerView.Adapter rAdapter;
     BootstrapButton btnBack = null;
     BootstrapButton btnReset = null;
-
     ManageDB mdb = null;
-    ArrayList<Word> wordsList = null;//単語リスト
-    int langMode = 0;               //言語タイプ
+    ArrayList<Word> wordsList = null;  //単語リスト
+    int langMode = 0;                  //言語タイプ
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +31,7 @@ public class CardsActivity extends AppCompatActivity {
         btnReset = findViewById(R.id.btn_reset_card);
         mdb = new ManageDB(this);
 
-
-        //前画面から単語セット受け取り
+        //前画面から単語セット受け取り――――――――――――――――――――――――――
         Intent intent = getIntent();
         wordsList = (ArrayList<Word>) intent.getSerializableExtra("data");
         langMode = intent.getIntExtra("lang", 0);
@@ -45,20 +39,17 @@ public class CardsActivity extends AppCompatActivity {
         //リサイクラービュー開始メソッドの呼び出し
         startRecyclerView();
 
-
-        //戻るボタン――――――――――――
+        //戻るボタン――――――――――――――――――――――――――
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(CardsActivity.this, CardsSettingActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
-        //リセットボタン――――――――――――
+        //リセットボタン――――――――――――――――――――――――――
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +59,8 @@ public class CardsActivity extends AppCompatActivity {
 
     }
 
-    //リサイクラービューの生成
+    //リサイクラービューの生成メソッド――――――――――――――――――――――――――
     private void startRecyclerView(){
-
         recyclerView.setHasFixedSize(true);
 
         //レイアウト生成
@@ -88,7 +78,6 @@ public class CardsActivity extends AppCompatActivity {
                         ItemTouchHelper.UP | ItemTouchHelper.DOWN,
                         ItemTouchHelper.LEFT) {
 
-
                     //ムーブ（アイテムを上下に移動）
                     public boolean onMove(RecyclerView recyclerview,
                                           RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target){
@@ -97,20 +86,14 @@ public class CardsActivity extends AppCompatActivity {
                         rAdapter.notifyItemMoved(fromPos,toPos);
                         return true;
                     }
-
                     //スワイプ（データリストから削除）
                     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction){
                         final int fromPos = viewHolder.getAdapterPosition();
-
                         wordsList.remove(fromPos);
-
                         rAdapter.notifyItemRemoved(fromPos);
                     }
-
-
                 });
         //タッチヘルパーをセット
         touchHelper.attachToRecyclerView(recyclerView);
-
     }
 }

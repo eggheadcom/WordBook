@@ -24,38 +24,6 @@
             android:textSize="24sp"
             android:text="@string/title_new_login"/>
 
-
-<!--        <com.beardedhen.androidbootstrap.BootstrapEditText-->
-<!--            android:id="@+id/ed_login_name"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            app:bootstrapBrand="primary"-->
-<!--            android:hint="@string/hint_name_login"-->
-<!--            />-->
-
-<!--        <com.beardedhen.androidbootstrap.BootstrapEditText-->
-<!--            android:id="@+id/ed_login_pass"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            app:bootstrapBrand="primary"-->
-<!--            android:hint="@string/hint_pass_login"-->
-<!--            />-->
-
-<!--        <com.beardedhen.androidbootstrap.BootstrapEditText-->
-<!--            android:id="@+id/ed_login_pass2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            app:bootstrapBrand="primary"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:visibility="invisible"-->
-<!--            android:hint="@string/hint_pass2_login"-->
-<!--            />-->
-
         <EditText
             android:id="@+id/ed_login_name"
             android:layout_width="match_parent"
